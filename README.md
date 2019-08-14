@@ -15,7 +15,11 @@
 ## コンテンツ予定
 
 0. まえがき
-1. TODO
+1. TSUBAME3.0でChainerMN @kumezawa
+2. ChainerCV @mogami
+3. ChainerRL @ikeyasu
+4. Chainerにコントリビュート @kase
+
 
 ## TODO
 - [x] キャラの名前
