@@ -1,5 +1,6 @@
-
 # TSUBAME3.0でChainerMN
+
+@<icon>{yousei} 「せっかく大岡山に来たことだし、まずはTSUBAMEでChainerMNをしてみようか！」
 
 @<icon>{yousei} 「そもそもTSUBAMEっていうのは、東京工業大学に設置された大規模クラスター型スーパーコンピュータのことなんだ。」
 
@@ -7,9 +8,16 @@
 
 @<icon>{cheiko}「(ちぇい太君の知識自慢が始まってしまった・・・)」
 
+## ChainerMNとは
+ChainerMNは、Chainerを用いた学習を分散処理により高速化する機能です。
+Chainer Multi Nodeを意味しています。
+柔軟で直感的に利用できる Chainer の利便性をそのままに、学習時間を大幅に短縮できます。
+1ノード内の複数のGPUを活用することも、複数のノードを活用することもできます。
+最新のChainerでは、Chainerと一緒にインストールされますので、必要な環境設定を行えばすぐに使うことができます。
+
 ## TSUBAME3.0でChainerMN
 ### TSUBAME3.0へログイン
-TODO
+一般的なクラウド環境のインスタンスのようにログインすることが可能です。詳しくは https://helpdesk.t3.gsic.titech.ac.jp/manuals/handbook.ja/start/ を参照ください。
 
 ### Chainerのインストール
 まず、Chainerのインストールを行います。インタラクティブジョブを起動し、以下のコマンドを打ち込みます
@@ -61,14 +69,16 @@ ChainerのMNISTサンプルは、初回実行時に`HOME`ディレクトリにMN
 
 ```
 # NOTE: env.shの実行を忘れないように
-$ wget https://raw.githubusercontent.com/chainer/chainer/v5.1.0/examples/mnist/train_mnist.py -O train_mnist_single.py
+$ wget https://raw.githubusercontent.com/chainer/chainer/v5.1.0/\
+examples/mnist/train_mnist.py -O train_mnist_single.py
 $ python train_mnist_single.py -e 1
 ```
 
 次に、ChainerMN用の train_mnist.py をダウンロードする。（まちがえてmasterブランチのtrain_mnist.pyをダウンロードするとエラーで実行できないので注意）
 
 ```
-$ wget https://raw.githubusercontent.com/chainer/chainer/v5.1.0/examples/chainermn/mnist/train_mnist.py
+$ wget https://raw.githubusercontent.com/chainer/chainer/v5.1.0/\
+examples/chainermn/mnist/train_mnist.py
 ```
 
 
@@ -130,12 +140,13 @@ If you are *absolutely sure* that your application will successfully
 and correctly survive a call to fork(), you may disable this warning
 by setting the mpi_warn_on_fork MCA parameter to 0.
 --------------------------------------------------------------------------
-epoch       main/loss   validation/main/loss  main/accuracy  validation/main/accuracy  elapsed_time
-1           0.289679    0.118232              0.915267       0.9628                    4.36749
-2           0.0913869   0.0768252             0.972          0.9755                    5.81177
+epoch main/loss   validation/main/loss  main/accuracy  validation/main/accuracy
+1     0.289679    0.118232              0.915267       0.9628
+2     0.0913869   0.0768252             0.972          0.9755
 ```
 
 出力された結果を見て、正しく実行されたかどうか確認しましょう。
+
  * 冒頭に `chainer.print_runtime_info()` の結果が出力されているので、ライブラリが正しく読み込まれていることを確認します
  * `-l s_gpu=4` という指定をしましたので、合計4プロセスで実行されます。 出力の`Num process (COMM_WORLD): 4` と一致していることを確認します。
  * コミュニケーターとして `pure_nccl communicator` が使われていることを確認します
@@ -145,6 +156,12 @@ epoch       main/loss   validation/main/loss  main/accuracy  validation/main/acc
 
 
 ## TSUBAME3.0の利用申請
+そもそもTSUBAMEを使うためには利用申請が必要になります。
+東工大の学生や教職員の方しか使えないイメージがありますが、
+学外の方も申請すれば使えるようです。
+
+詳しくは、https://www.t3.gsic.titech.ac.jp/getting-account に説明がありますのでご参照ください。
 
 ## おわりに
-- TODO: TSUBAME簡単につかえるよ。ハッカソンもしているよ
+敷居が高いように見えるスパコンも実はこんなに簡単に使うことができます。
+また、第1回 ディープラーニング分散学習ハッカソン(http://gpu-computing.gsic.titech.ac.jp/node/100)というイベントなども開催していたりします。ぜひ興味がある方は、まずはハッカソンにでも参加してみたらどうでしょうか。
